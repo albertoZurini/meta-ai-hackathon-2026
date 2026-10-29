@@ -1,0 +1,30 @@
+[project]
+name = "duck-server"
+version = "0.1.0"
+description = "Duck aquarium backend: Meta Model API, local SAM 3.1, event bus"
+requires-python = ">=3.12"
+dependencies = [
+    "accelerate>=1.15.0",
+    "fastapi>=0.162.0",
+    "httpx>=0.28.1",
+    "numpy>=2.5.4",
+    "openai>=3.41.0",
+    "pillow>=13.0.0",
+    "pyobjc-framework-quartz>=12.2.2",
+    "pyobjc-framework-vision>=12.2.2",
+    "python-dotenv>=1.2.4",
+    "python-multipart>=0.0.32",
+    "sse-starlette>=3.6.0",
+    "tinycss2>=1.5.1",
+    "torch>=2.15.0",
+    "torchvision>=0.29.2",
+    "transformers>=4.57",
+    "uvicorn[standard]>=0.54.0",
+]
+
+[project.scripts]
+duck-server = "duck_server:main"
+
+[build-system]
+requires = ["uv_build>=0.12.5,<0.13.0"]
+build-backend = "uv_build"
