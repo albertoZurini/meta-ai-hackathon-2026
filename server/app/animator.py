@@ -102,6 +102,18 @@ def _crop(doodle: bytes, bbox: dict | None) -> bytes:
     return buf.getvalue()
 
 
+def _crop_alpha(doodle: bytes, bbox: dict | None) -> bytes:
+    """Crop the full-frame doodle to its bbox, keeping transparency (used as-is in mock mode)."""
+    im = Image.open(io.BytesIO(doodle)).convert("RGBA")
+    if bbox:
+        s = im.width / 200
+        im = im.crop((int(bbox["x"] * s), int(bbox["y"] * s),
+                      int((bbox["x"] + bbox["w"]) * s), int((bbox["y"] + bbox["h"]) * s)))
+    buf = io.BytesIO()
+    im.save(buf, "PNG")
+    return buf.getvalue()
+
+
 def _placement_from_bbox(bbox: dict | None) -> dict:
     b = bbox or {"x": 90, "y": 0, "w": 70, "h": 50}
     return {"x": b["x"] / 2, "y": b["y"] / 2, "w": b["w"] / 2, "h": b["h"] / 2, "rotate": 0}
@@ -112,7 +124,8 @@ def generate(composite: bytes | None, doodle: bytes | None, bbox: dict | None, m
     """Returns a draft: {label, attach_to, placement, accessory_png, css, css_check, duration_ms, bubble, timings, raw}."""
     timings: dict[str, int] = {}
     draft = {"label": "drawing", "attach_to": pipeline.SLOT_PARENT.get(pipeline.slot_for_bbox(bbox), "head")
-             if bbox else "head", "placement": _placement_from_bbox(bbox), "accessory_png": doodle,
+             if bbox else "head", "placement": _placement_from_bbox(bbox),
+             "accessory_png": _crop_alpha(doodle, bbox) if doodle else None,
              "duration_ms": 3000, "bubble": "Ooh, for me?", "raw": None}
     if not live:
         check = check_css(FALLBACK_CSS)
