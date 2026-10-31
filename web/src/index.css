@@ -412,3 +412,10 @@ div.bubble { animation: pop .25s ease-out; }
 .waiting-bar span { display: block; height: 100%; background: repeating-linear-gradient(45deg, #FFD23F 0 12px, #F2B705 12px 24px);
   transition: width .2s linear; animation: stripes 1s linear infinite; background-size: 34px 34px; }
 @keyframes stripes { to { background-position: 34px 0; } }
+
+/* reply = the duck you sent + their photo */
+.reply-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; align-items: start; }
+.reply-pair figure { margin: 0; text-align: center; }
+.reply-pair figcaption { font-size: 12px; color: #6b7280; margin-top: 4px; }
+.reply-pair .reply-photo { aspect-ratio: 1; object-fit: cover; }
+.playable.small { width: 100%; margin: 0; padding: 6%; }

@@ -128,7 +128,15 @@ async def create_message(
 
 @app.get("/api/f/{owner}/replies")
 def friend_replies(owner: str, friend_id: str):
-    return store.query("replies", owner=owner, friend_id=friend_id)
+    """Replies for a friend, each with the duck they originally sent (so the page can show both)."""
+    out = []
+    for r in store.query("replies", owner=owner, friend_id=friend_id):
+        msg = store.get("messages", r["to_message"]) if r.get("to_message") else None
+        if msg:
+            r = {**r, "message": {k: msg.get(k) for k in
+                 ("text", "css", "placed", "bubble", "duration_ms", "accessory", "performance", "created")}}
+        out.append(r)
+    return out
 
 
 # ---------- tank (owner) ----------

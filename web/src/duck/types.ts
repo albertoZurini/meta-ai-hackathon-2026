@@ -85,6 +85,8 @@ export type Reply = {
   label?: string
   cutout?: string
   performance: Performance
+  /** The duck the friend originally sent (for photo/video replies). */
+  message?: Pick<Message, 'text' | 'css' | 'placed' | 'bubble' | 'duration_ms' | 'accessory' | 'performance' | 'created'>
 }
 
 export type ShowTell = { id: string; label: string; cutout: string; performance: Performance }

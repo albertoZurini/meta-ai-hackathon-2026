@@ -32,6 +32,27 @@ function DraftPreview({ draft }: { draft: Draft }) {
   )
 }
 
+/** The duck the friend sent: AI CSS animation if present, otherwise the canned performance. Loops. */
+function SentDuck({ msg }: { msg: NonNullable<Reply['message']> }) {
+  const ref = useRef<SVGSVGElement>(null)
+  const [playKey, setPlayKey] = useState(0)
+  useEffect(() => {
+    const every = (msg.css ? msg.duration_ms ?? 3000 : msg.performance.duration_ms) + 900
+    const id = setInterval(() => setPlayKey((k) => k + 1), every)
+    return () => clearInterval(id)
+  }, [msg])
+  useEffect(() => {
+    if (!msg.css && ref.current) play(ref.current, msg.performance)
+  }, [msg, playKey])
+  return (
+    <div className="playable small">
+      {msg.css
+        ? <CssDuck css={msg.css} placed={msg.placed} playKey={playKey} bubble={msg.bubble} />
+        : <Duck ref={ref} accessories={msg.accessory ? [msg.accessory] : []} props={msg.performance.props} />}
+    </div>
+  )
+}
+
 function GiftDuck({ reply }: { reply: Reply }) {
   const ref = useRef<SVGSVGElement>(null)
   const go = useCallback(() => {
@@ -183,7 +204,18 @@ export default function Friend() {
               {r.kind === 'photo' ? (
                 <>
                   <p>{owner} replied with a photo 📸</p>
-                  <img src={r.photo} className="reply-photo" alt="reply" />
+                  <div className="reply-pair">
+                    {r.message && (
+                      <figure>
+                        <SentDuck msg={r.message} />
+                        <figcaption>Your duck{r.message.text ? `: “${r.message.text}”` : ''}</figcaption>
+                      </figure>
+                    )}
+                    <figure>
+                      <img src={r.photo} className="reply-photo" alt="reply" />
+                      <figcaption>{owner}'s reaction</figcaption>
+                    </figure>
+                  </div>
                 </>
               ) : r.kind === 'video' ? (
                 <>
