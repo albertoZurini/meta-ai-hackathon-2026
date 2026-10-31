@@ -5,16 +5,16 @@ import type { Critter, CritterKind } from './creatures'
 const W = 600
 const H = 800
 const INK = '#1F2430'
-const COLORS = ['#FF8A3D', '#F2B705', '#E84A7F', '#8B5CF6', '#3FA36B', '#4FA3D1', '#F28C28']
+export const COLORS = ['#FF8A3D', '#F2B705', '#E84A7F', '#8B5CF6', '#3FA36B', '#4FA3D1', '#F28C28']
 const SWIM_TOP = 110
 const SWIM_BOTTOM = 680
 
-type Fish = {
+export type Fish = {
   x: number; y: number; vx: number; size: number; color: string
   phase: number; alive: boolean; respawnAt: number; turnAt: number; caught?: boolean
 }
-type Tongue = { state: 'idle' | 'out' | 'back'; len: number; prey: Fish | null }
-type Shark = {
+export type Tongue = { state: 'idle' | 'out' | 'back'; len: number; prey: Fish | null }
+export type Shark = {
   x: number; y: number; vx: number; chomp: number; active: boolean; nextAt: number; phase: number
   eaten: number; tongue: Tongue
 }
@@ -46,7 +46,7 @@ function silhouette(ctx: CanvasRenderingContext2D, shapes: Path2D[], fill: strin
   for (const s of shapes) ctx.fill(s)
 }
 
-function drawFish(ctx: CanvasRenderingContext2D, f: Fish, t: number) {
+export function drawFish(ctx: CanvasRenderingContext2D, f: Fish, t: number) {
   ctx.save()
   ctx.translate(f.x, f.y + Math.sin(t / 600 + f.phase) * 5)
   ctx.scale(f.size * (f.vx > 0 ? -1 : 1), f.size) // drawn facing left
@@ -66,7 +66,7 @@ function drawFish(ctx: CanvasRenderingContext2D, f: Fish, t: number) {
   ctx.restore()
 }
 
-function drawShark(ctx: CanvasRenderingContext2D, s: Shark, t: number) {
+export function drawShark(ctx: CanvasRenderingContext2D, s: Shark, t: number) {
   ctx.save()
   ctx.translate(s.x, s.y + sharkBob(t))
   ctx.scale(s.vx > 0 ? -1.5 : 1.5, 1.5) // drawn facing left

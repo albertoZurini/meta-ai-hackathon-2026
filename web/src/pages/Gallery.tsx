@@ -9,7 +9,7 @@ import { Aquarium } from '../scenes/Aquarium'
 import { FishCanvas } from '../scenes/FishCanvas'
 import { Submarine } from '../scenes/Submarine'
 import { WaitingDuck } from '../components/WaitingDuck'
-import { CritterPreview } from '../scenes/CritterPreview'
+import { CritterPreview, FishPreview, SharkPreview } from '../scenes/CritterPreview'
 
 /**
  * Design review page: every visual component in every style/state, rendered from the real components.
@@ -166,8 +166,24 @@ export default function Gallery() {
           <Card id="scene.sub.no" title="Submarine: no message">
             <div className="g-sub"><Submarine><LoopDuck perf={NO} /></Submarine></div>
           </Card>
-          <Card id="scene.bubble" title="Speech bubble">
-            <MiniStage><div className="bubble sub-bubble" style={{ top: '40%', left: '10%' }}>Hey, there's a message from Marco!</div></MiniStage>
+          <Card id="scene.sub.bubble" title="Duck in the sub talking (long line)" note="Bubble sits above the sub and wraps">
+            <MiniStage>
+              <div className="layer" style={{ background: '#7CC4E8' }} />
+              <div className="sub sub-in">
+                <Submarine><Duck accessories={[CROWN]} /></Submarine>
+                <div className="bubble sub-bubble">Hey, there's a message from Marco! He drew you a crown 👑</div>
+              </div>
+            </MiniStage>
+          </Card>
+          <Card id="scene.porthole.bubble" title="Porthole close-up talking (long line)" note="Bubble is outside the glass so it's never clipped">
+            <MiniStage>
+              <div className="porthole-view">
+                <div className="porthole-glass">
+                  <div className="big-duck"><Duck accessories={[CROWN]} /></div>
+                </div>
+                <div className="bubble big-bubble">Hired! Bow to me, peasants of the aquarium! 👑🎉</div>
+              </div>
+            </MiniStage>
           </Card>
           <Card id="scene.countdown" title="Show & Tell countdown">
             <MiniStage><div className="st-countdown"><div className="count">2</div><p>Ooh, what's that? Hold it still! 👀</p></div></MiniStage>
@@ -196,6 +212,8 @@ export default function Gallery() {
       <section id="marine">
         <h2>Marine life</h2>
         <div className="g-grid">
+          <Card id="marine.fish" title="Fish" note="The most common (9 in the tank); one outline around body + tail"><FishPreview /></Card>
+          <Card id="marine.shark" title="Shark" note="Comes every 15–35 s, frog tongue, always eats at least one fish (K)"><SharkPreview /></Card>
           <Card id="marine.seahorse" title="Seahorse" note="Drifts upright, bobs, fin flutters (2 in the tank)"><CritterPreview kind="seahorse" /></Card>
           <Card id="marine.jellyfish" title="Jellyfish" note="Pulses up, sinks slowly, tentacles wave (2)"><CritterPreview kind="jellyfish" /></Card>
           <Card id="marine.shrimp" title="Shrimp" note="Scuttles on the sand, stops, tail-flicks back (2)"><CritterPreview kind="shrimp" /></Card>
