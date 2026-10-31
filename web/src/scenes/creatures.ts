@@ -22,6 +22,24 @@ export type Critter = {
 }
 
 const rand = (a: number, b: number) => a + Math.random() * (b - a)
+
+/** Horizontal safety margin per creature (≈ half its drawn width + room for tentacles/antennae). */
+const MARGIN: Record<CritterKind, number> = { seahorse: 45, jellyfish: 45, shrimp: 60, octopus: 60 }
+
+/**
+ * Keep a creature inside [margin, w - margin] and make it head back toward the middle.
+ * (Flipping vx at the edge isn't enough: if it's already past the line it flips every frame and jitters.)
+ */
+function keepInside(c: Critter, w: number) {
+  const m = Math.min(MARGIN[c.kind] * c.size, w / 2 - 1)
+  if (c.x < m) {
+    c.x = m
+    c.vx = Math.abs(c.vx)
+  } else if (c.x > w - m) {
+    c.x = w - m
+    c.vx = -Math.abs(c.vx)
+  }
+}
 const pick = <T,>(xs: T[]) => xs[Math.floor(Math.random() * xs.length)]
 
 /** How many of each to spawn (fish stay the most common: see FishCanvas). */
@@ -29,18 +47,20 @@ export const POPULATION: Record<CritterKind, number> = { seahorse: 2, jellyfish:
 
 export function newCritter(kind: CritterKind, box = { w: W, sand: SAND_Y }): Critter {
   const base = { kind, phase: rand(0, Math.PI * 2), state: 0, vy: 0 }
+  const m = Math.min(MARGIN[kind] + 20, box.w / 2 - 1)
+  const x = rand(m, box.w - m)
   switch (kind) {
     case 'seahorse':
-      return { ...base, x: rand(60, box.w - 60), y: rand(250, 600), vx: rand(6, 14) * pick([-1, 1]), size: rand(0.9, 1.2),
+      return { ...base, x, y: rand(250, 600), vx: rand(6, 14) * pick([-1, 1]), size: rand(0.9, 1.2),
         color: pick(['#F2B705', '#FF8A3D', '#F472B6']) }
     case 'jellyfish':
-      return { ...base, x: rand(60, box.w - 60), y: rand(150, 500), vx: rand(-6, 6), size: rand(0.9, 1.3),
+      return { ...base, x, y: rand(150, 500), vx: rand(-6, 6), size: rand(0.9, 1.3),
         color: pick(['#F9A8D4', '#C4B5FD', '#A5F3FC']) }
     case 'shrimp':
-      return { ...base, x: rand(40, box.w - 40), y: box.sand - 4, vx: rand(15, 30) * pick([-1, 1]), size: rand(0.8, 1.1),
+      return { ...base, x, y: box.sand - 4, vx: rand(15, 30) * pick([-1, 1]), size: rand(0.8, 1.1),
         color: '#FB7185', state: rand(1, 4) }
     case 'octopus':
-      return { ...base, x: rand(180, box.w - 180), y: box.sand - 26, vx: 10 * pick([-1, 1]), size: 1.1,
+      return { ...base, x, y: box.sand - 26, vx: 10 * pick([-1, 1]), size: 1.1,
         color: pick(['#8B5CF6', '#E4572E']), state: rand(8, 16) }
   }
 }
@@ -52,7 +72,6 @@ export function stepCritter(c: Critter, dt: number, t: number, box = { w: W, san
       // Slow upright drift, gentle bobbing, turns around at the edges.
       c.x += c.vx * dt
       c.y += Math.sin(t / 900 + c.phase) * 8 * dt
-      if (c.x < 40 || c.x > box.w - 40) c.vx = -c.vx
       break
     case 'jellyfish': {
       // Pulse: push up while the bell contracts, then sink slowly.
@@ -61,7 +80,6 @@ export function stepCritter(c: Critter, dt: number, t: number, box = { w: W, san
       c.x += c.vx * dt
       if (c.y < 120) c.y = 120
       if (c.y > box.sand - 120) c.y = box.sand - 120
-      if (c.x < 30 || c.x > box.w - 30) c.vx = -c.vx
       break
     }
     case 'shrimp':
@@ -73,7 +91,6 @@ export function stepCritter(c: Critter, dt: number, t: number, box = { w: W, san
         c.state = rand(1.5, 4)
         if (Math.random() < 0.4) c.vx = -c.vx
       }
-      if (c.x < 20 || c.x > box.w - 20) c.vx = -c.vx
       c.y = box.sand - 4
       break
     case 'octopus':
@@ -81,7 +98,6 @@ export function stepCritter(c: Critter, dt: number, t: number, box = { w: W, san
       c.state -= dt
       if (c.vy === 0) {
         c.x += c.vx * dt
-        if (c.x < 60 || c.x > box.w - 60) c.vx = -c.vx
         if (c.state <= 0) c.vy = -150
       } else {
         c.vy += 60 * dt
@@ -95,6 +111,7 @@ export function stepCritter(c: Critter, dt: number, t: number, box = { w: W, san
       }
       break
   }
+  keepInside(c, box.w)
 }
 
 function outline(ctx: CanvasRenderingContext2D, shapes: Path2D[], fill: string, lw: number) {
