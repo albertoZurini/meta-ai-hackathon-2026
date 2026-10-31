@@ -169,6 +169,10 @@ export default function Tank() {
     if (m.css) {
       // AI-generated: placed accessory + model CSS (sanitized by the backend).
       setCssPlay((k) => k + 1)
+      if (m.bubble) {
+        setBubble(m.bubble)
+        setTimeout(() => setBubble((b) => (b === m.bubble ? null : b)), 2800)
+      }
       await sleep(Math.min(Math.max(m.duration_ms ?? 3000, 1500), 10000) + 400)
     } else if (bigDuck.current) {
       await play(bigDuck.current, m.performance, { onBubble: setBubble })
@@ -377,15 +381,16 @@ export default function Tank() {
               <div className="big-duck">
                 {msg?.css ? (
                   <CssDuck css={phase === 'perform' ? msg.css : null} playKey={cssPlay} placed={msg.placed}
-                    bubble={phase === 'perform' ? msg.bubble : null} showHands={WITH_CARD.includes(phase)} />
+                    showHands={WITH_CARD.includes(phase)} />
                 ) : (
                   <Duck ref={bigDuck} accessories={accessories} held={held}
                     props={phase === 'perform' ? msg?.performance.props : phase === 'st-perform' ? st?.performance.props : []}
                     showHands={WITH_CARD.includes(phase)} />
                 )}
               </div>
-              {bubble && <div className="bubble big-bubble">{bubble}</div>}
             </div>
+            {/* Outside the glass so long lines aren't clipped by the round window. */}
+            {bubble && <div className="bubble big-bubble">{bubble}</div>}
 
             {WITH_CARD.includes(phase) && msg && (
               <div className="card-wrap">
