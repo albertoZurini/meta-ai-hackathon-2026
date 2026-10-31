@@ -6,7 +6,7 @@ import { sanitizeSvg } from './sanitize'
 const INK = '#1F2430'
 const S = { stroke: INK, strokeWidth: 3, strokeLinejoin: 'round', strokeLinecap: 'round' } as const
 
-// Pivots from docs/DUCK-STYLE.md section 3.
+// Pivots from DUCK-STYLE.md section 3.
 const PIVOT: Record<string, [number, number]> = {
   duck: [100, 190],
   body: [100, 140],

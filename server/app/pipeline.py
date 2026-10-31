@@ -16,7 +16,8 @@ from PIL import Image
 from . import performances, sam
 
 MODE = os.environ.get("AI_MODE", "mock")
-STYLE = (Path(__file__).resolve().parents[2] / "docs" / "DUCK-STYLE.md").read_text()
+_ROOT = Path(__file__).resolve().parents[2]
+STYLE = next(p for p in (_ROOT / "DUCK-STYLE.md", _ROOT / "docs" / "DUCK-STYLE.md") if p.exists()).read_text()
 
 # Duck-space regions (viewBox 0 0 200 200) used to pick the slot a doodle belongs to.
 SLOT_PARENT = {"hat": "head", "face": "head", "neck": "body", "body": "body", "back": "body", "held": "hand-r"}

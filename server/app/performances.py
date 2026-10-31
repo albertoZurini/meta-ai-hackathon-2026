@@ -1,6 +1,6 @@
 """Hand-written performances used in mock mode (and as fallbacks in live mode).
 
-Format: see docs/DUCK-STYLE.md section 6.
+Format: see DUCK-STYLE.md section 6.
 """
 
 import copy
