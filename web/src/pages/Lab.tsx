@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { api } from '../api'
 import { CssDuck } from '../components/CssDuck'
-import { COLORS, DrawPad, DrawTools, QualitySlider, SIZES, exportDrawing } from '../components/DrawPad'
+import { COLORS, DrawPad, DrawTools, QualitySlider, SIZES, exportDrawing, qualityLabel } from '../components/DrawPad'
 import type { Stroke } from '../components/DrawPad'
 import type { Draft } from '../duck/types'
 
@@ -62,7 +62,7 @@ function Column({ col, onRemove, onDuplicate, onRun }: {
       } else {
         const src = col.saved!
         fields = {
-          message: src.message, quality: src.quality, lab: true,
+          message: src.message, quality, lab: true,
           doodle: await urlBlob(src.doodle), composite: await urlBlob(src.composite),
           bbox: src.bbox ? JSON.stringify(src.bbox) : undefined,
         }
@@ -108,7 +108,7 @@ function Column({ col, onRemove, onDuplicate, onRun }: {
           <>
             {col.saved!.composite ? <img className="lab-img sky" src={col.saved!.composite} alt="composite" /> : <div className="lab-empty">no composite</div>}
             <div className="lab-kv"><span>message</span><b>“{col.saved!.message}”</b></div>
-            <div className="lab-kv"><span>quality</span><b>{col.saved!.quality.toFixed(2)}</b></div>
+            <QualitySlider value={quality} onChange={setQuality} />
           </>
         )}
         <div className="lab-actions">
@@ -129,6 +129,12 @@ function Column({ col, onRemove, onDuplicate, onRun }: {
             <figure>{d.accessory ? <img className="lab-img checker" src={d.accessory.url} alt="keyed" /> : <div className="lab-empty">–</div>}<figcaption>keyed</figcaption></figure>
           </div>
         ) : <div className="lab-empty">not run yet</div>}
+        {d && (
+          <div className="lab-quality" title="Quality this image was generated with">
+            <div className="lab-quality-bar"><span style={{ left: `${d.quality * 100}%` }}>🦆</span></div>
+            <small>{qualityLabel(d.quality).icon} {qualityLabel(d.quality).label} · {d.quality.toFixed(2)}</small>
+          </div>
+        )}
       </div>
 
       {/* 3. Result */}
