@@ -53,8 +53,6 @@ export const api = {
   },
   presence: (frame: Blob) =>
     req<{ present: boolean; holding: boolean; detections: unknown[]; ms: number }>('/api/presence', { method: 'POST', body: form({ frame }) }),
-  face: (frame: Blob) =>
-    req<{ present: boolean }>('/api/face', { method: 'POST', body: form({ frame }) }),
   showtell: (frame: Blob, hint = '') =>
     req<ShowTell>('/api/showtell', { method: 'POST', body: form({ frame, hint }) }),
   gift: (id: string, friendId: string) =>

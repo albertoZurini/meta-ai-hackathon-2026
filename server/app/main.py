@@ -186,14 +186,6 @@ async def presence(frame: UploadFile = File(...)):
     return pipeline.presence(await frame.read())
 
 
-@app.post("/api/face")
-async def face(frame: UploadFile = File(...)):
-    """Fast face check only (Apple Vision), used to auto-open a message when you look at the screen."""
-    from . import faces
-    found = faces.detect(await frame.read())
-    return {"present": bool(found), "faces": found}
-
-
 @app.post("/api/showtell")
 async def showtell(frame: UploadFile = File(...), hint: str = Form("")):
     res = pipeline.show_and_tell(await frame.read(), hint)

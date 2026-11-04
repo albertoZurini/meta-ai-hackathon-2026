@@ -169,7 +169,7 @@ export default function Camera() {
       const tankBusy = tankPhase.current !== 'idle' && tankPhase.current !== '?'
       if (!auto || busy.current || tankBusy || Date.now() < cooldown.current || m < MOTION_THRESHOLD) return
       busy.current = true
-      setSamState('presence: Apple Vision face + hand…')
+      setSamState('presence: SAM 3.1 face + hand…')
       try {
         const res = (await api.presence(await captureFrame(v, 512))) as Presence
         setLast(res)
@@ -338,7 +338,7 @@ export default function Camera() {
           <dd>
             {last ? (
               <>
-                face/hand check {last.ms} ms (Apple Vision) · showing something {last.holding ? '✓ (hand up)' : '✗'}
+                face/hand check {last.ms} ms (SAM 3.1, local) · showing something {last.holding ? '✓ (hand up)' : '✗'}
                 {last.detections.map((d, i) => (
                   <div key={i} className="det" style={{ color: COLORS[d.prompt] }}>
                     {d.prompt}: {(d.score * 100).toFixed(0)}% · {(d.area * 100).toFixed(1)}% of frame

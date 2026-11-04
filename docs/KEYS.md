@@ -63,6 +63,6 @@ The camera page also streams the webcam to the tank during the photo reply and t
 ## Detection pipeline (camera page)
 
 1. Motion: pixel difference on a 64×48 thumbnail in the browser (no model), threshold 3%.
-2. Face: Apple Vision framework on the backend (~10 ms, OS framework, not an AI model call).
+2. Face + hand: local SAM 3.1 (open weights) on the backend, prompts `"face"` and `"hand"`, only after motion.
 3. Object held up: local SAM 3.1, prompt `"object held in hand"`, only if a face was found (~1 s).
 4. Face only → tank wakes. Face + object (> 2% of frame) → Show & Tell.

@@ -20,7 +20,7 @@ flowchart TD
     IDLE["Tank idle: aquarium<br/>fish + frog-tongue shark"]:::auto
     IDLE --> M{"Motion?<br/>(pixel diff in /camera)"}:::cam
     M -- no --> IDLE
-    M -- yes --> FACE{"Face?<br/>(Apple Vision, ~10 ms)"}:::cam
+    M -- yes --> FACE{"Face?<br/>(local SAM 3.1)"}:::cam
     FACE -- no --> IDLE
     FACE -- yes --> OBJ{"Object held up?<br/>(local SAM 3.1)"}:::cam
 

@@ -226,21 +226,24 @@ def _detections(image: Image.Image, prompt: str, threshold: float) -> list[dict]
 
 
 def presence(frame: bytes) -> dict:
-    """Face + hands via Apple Vision (fast, OS framework). A raised hand = 'showing something' → Show & Tell.
-    The SAM cutout happens later, after the tank's countdown (see show_and_tell)."""
+    """Face + hand via local SAM 3.1 (open weights, Meta model). A raised hand = 'showing something' → Show & Tell.
+    Only called after the browser's pixel-diff motion check fires. The object cutout happens later,
+    after the tank's countdown (see show_and_tell)."""
     import json as _json
     import time
-    from . import faces as vision
     t = time.time()
-    def box_area(b):
-        return round((b[2] - b[0]) * (b[3] - b[1]), 4)
-    found = [{"prompt": "face", "score": f["score"], "box": f["box"], "area": box_area(f["box"]), "mask": None}
-             for f in vision.detect(frame)]
-    hands = [{"prompt": "hand", "score": h["score"], "box": h["box"], "area": box_area(h["box"]), "mask": None}
-             for h in vision.hands(frame)]
+    image = Image.open(io.BytesIO(frame)).convert("RGB")
+
+    def boxed(d):
+        b = d["box"]
+        return {**d, "area": round((b[2] - b[0]) * (b[3] - b[1]), 4), "mask": None}
+
+    found = [boxed(d) for d in _detections(image, "face", threshold=0.4)]
+    face_ms = round((time.time() - t) * 1000)
+    hands = [boxed(d) for d in _detections(image, "hand", threshold=0.4)]
     holding = any(h["area"] > 0.004 for h in hands)
     res = {"present": bool(found) or holding, "holding": holding, "detections": found + hands,
-           "face_ms": round((time.time() - t) * 1000), "ms": round((time.time() - t) * 1000)}
+           "face_ms": face_ms, "ms": round((time.time() - t) * 1000)}
     # Keep the last checked frame + result for debugging (data/debug/).
     dbg = Path(__file__).resolve().parents[2] / "data" / "debug"
     dbg.mkdir(parents=True, exist_ok=True)

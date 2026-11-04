@@ -38,9 +38,9 @@ Video messages are transcribed with **Muse Voice Transcribe**.
 | **Muse Spark 1.3** (vision + JSON schema) | writes the duck's CSS animation, places the drawing, writes the bubble; names Show & Tell objects and invents the gag | `server/app/animator.py`, `server/app/pipeline.py` |
 | **Muse Image 1.0** (edit) | redraws the friend's doodle in the chosen style | `server/app/animator.py`, `server/app/pipeline.py` |
 | **Muse Voice Transcribe 1.0** | transcribes video messages | `server/app/pipeline.py` |
-| **SAM 3.1** (open weights, runs on the Mac) | cuts the held-up object out of the webcam frame | `server/app/sam.py` |
+| **SAM 3.1** (open weights, runs on the Mac) | detects a face / raised hand in front of the tank, cuts the held-up object out of the webcam frame | `server/app/sam.py` |
 
-All Meta Model API calls go through `server/app/muse.py` (the `openai` Python package is only used as an OpenAI-compatible client pointed at `https://api.meta.ai/v1`). Face detection uses Apple's built-in Vision framework, not an AI API.
+All Meta Model API calls go through `server/app/muse.py` (the `openai` Python package is only used as an OpenAI-compatible client pointed at `https://api.meta.ai/v1`). Presence detection (face + raised hand) also runs on local SAM 3.1, after a plain pixel-diff motion check in the browser, so every model the project calls at runtime is a Meta model.
 
 ## QA tools
 
@@ -57,7 +57,7 @@ The tank runs on a bare flexible OLED panel driven by an HDMI-to-MIPI board, hel
 
 ## Running it
 
-Requirements: macOS (Apple Vision is used for face detection), Python 3.12 with [uv](https://docs.astral.sh/uv/), Node with pnpm and a Meta Model API key.
+Requirements: a GPU is recommended for SAM 3.1 (PyTorch MPS or CUDA; CPU works but is slower), Python 3.12 with [uv](https://docs.astral.sh/uv/), Node with pnpm and a Meta Model API key.
 
 ```sh
 # 1. API key: create .env in the repo root
@@ -86,7 +86,6 @@ server/            FastAPI backend
   app/animator.py    drawing + message → CSS animation + redrawn accessory
   app/pipeline.py    message processing, Show & Tell, quality styles
   app/sam.py         local SAM 3.1 segmentation
-  app/faces.py       Apple Vision face detection
 web/               React + TypeScript + Vite frontend
   src/pages/         Tank, Friend, Camera, Lab, Gallery, Presentation, Outro
   src/duck/          the duck (SVG) and its animation player
