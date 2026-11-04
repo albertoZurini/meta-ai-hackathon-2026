@@ -1,0 +1,142 @@
+{
+ "draft": {
+  "message": "Pizza time!!!",
+  "label": "pizza",
+  "css": "@keyframes dk-pizza-duck { 0% { transform: translate(0px, 0px) rotate(0deg) } 25% { transform: translate(-8px, 0px) rotate(-8deg) } 50% { transform: translate(0px, -6px) rotate(0deg) } 75% { transform: translate(8px, 0px) rotate(8deg) } 100% { transform: translate(0px, 0px) rotate(0deg) } }\n@keyframes dk-pizza-show { 0%, 100% { opacity: 1; transform: rotate(0deg) translateY(0px) } 40% { opacity: 1; transform: rotate(-28deg) translateY(-20px) } }\n@keyframes dk-pizza-look { 0%, 100% { transform: rotate(0deg) } 40% { transform: rotate(-12deg) } }\n@keyframes dk-pizza-chomp { 0% { transform: rotate(0deg) } 50% { transform: rotate(-14deg) } 100% { transform: rotate(0deg) } }\n@keyframes dk-pizza-wing { 0% { transform: rotate(0deg) } 50% { transform: rotate(-38deg) } 100% { transform: rotate(0deg) } }\n[data-part=\"duck\"] { animation: dk-pizza-duck 1.8s ease-in-out 2 }\n[data-part=\"hand-r\"] { opacity: 1; animation: dk-pizza-show 1.8s ease-in-out 2 }\n[data-part=\"head\"] { animation: dk-pizza-look 1.8s ease-in-out 2 }\n[data-part=\"beak\"] { animation: dk-pizza-chomp 0.6s ease-in-out 6 }\n[data-part=\"wing\"] { animation: dk-pizza-wing 0.9s ease-in-out 4 }",
+  "bubble": "Pizza time! Who wants a slice? \ud83c\udf55",
+  "duration_ms": 3600,
+  "timings": {
+   "spark_ms": 12186,
+   "image_ms": 29068
+  },
+  "css_notes": {
+   "css": "@keyframes dk-pizza-duck { 0% { transform: translate(0px, 0px) rotate(0deg) } 25% { transform: translate(-8px, 0px) rotate(-8deg) } 50% { transform: translate(0px, -6px) rotate(0deg) } 75% { transform: translate(8px, 0px) rotate(8deg) } 100% { transform: translate(0px, 0px) rotate(0deg) } }\n@keyframes dk-pizza-show { 0%, 100% { opacity: 1; transform: rotate(0deg) translateY(0px) } 40% { opacity: 1; transform: rotate(-28deg) translateY(-20px) } }\n@keyframes dk-pizza-look { 0%, 100% { transform: rotate(0deg) } 40% { transform: rotate(-12deg) } }\n@keyframes dk-pizza-chomp { 0% { transform: rotate(0deg) } 50% { transform: rotate(-14deg) } 100% { transform: rotate(0deg) } }\n@keyframes dk-pizza-wing { 0% { transform: rotate(0deg) } 50% { transform: rotate(-38deg) } 100% { transform: rotate(0deg) } }\n[data-part=\"duck\"] { animation: dk-pizza-duck 1.8s ease-in-out 2 }\n[data-part=\"hand-r\"] { opacity: 1; animation: dk-pizza-show 1.8s ease-in-out 2 }\n[data-part=\"head\"] { animation: dk-pizza-look 1.8s ease-in-out 2 }\n[data-part=\"beak\"] { animation: dk-pizza-chomp 0.6s ease-in-out 6 }\n[data-part=\"wing\"] { animation: dk-pizza-wing 0.9s ease-in-out 4 }",
+   "ok": true,
+   "notes": []
+  },
+  "doodle": "/presentation/doodle-crop.png",
+  "composite": "/presentation/composite.png",
+  "accessory_raw": "/presentation/muse-image-raw.png",
+  "accessory": {
+   "url": "/presentation/accessory.png",
+   "attach_to": "hand-r",
+   "placement": {
+    "x": 58.0,
+    "y": 54.0,
+    "w": 36.0,
+    "h": 36.0,
+    "rotate": -10.0
+   }
+  }
+ },
+ "showtell": {
+  "label": "bottle",
+  "performance": {
+   "bubble": [
+    {
+     "t": 0.1,
+     "text": "Shake shake! Snack time!"
+    }
+   ],
+   "duration_ms": 5000,
+   "props": [
+    {
+     "id": "peanut-jar",
+     "slot": "held",
+     "svg": "<g stroke=\"#1F2430\" stroke-width=\"3\" stroke-linejoin=\"round\" stroke-linecap=\"round\"><rect x=\"-20\" y=\"-34\" width=\"40\" height=\"12\" rx=\"6\" fill=\"#1F2430\"/><rect x=\"-22\" y=\"-22\" width=\"44\" height=\"54\" rx=\"10\" fill=\"#BFE6FF\"/><ellipse cx=\"-8\" cy=\"22\" rx=\"9\" ry=\"6\" fill=\"#E8D3A2\"/><ellipse cx=\"9\" cy=\"23\" rx=\"9\" ry=\"6\" fill=\"#E8D3A2\"/><ellipse cx=\"0\" cy=\"18\" rx=\"7\" ry=\"5\" fill=\"#C8894A\"/><rect x=\"-22\" y=\"-4\" width=\"44\" height=\"22\" rx=\"4\" fill=\"#E4572E\"/></g>",
+     "x": 0,
+     "y": 0
+    }
+   ],
+   "title": "Peanut Shake Showdown",
+   "tracks": [
+    {
+     "keyframes": [
+      {
+       "opacity": 1,
+       "t": 0
+      },
+      {
+       "opacity": 1,
+       "t": 1
+      }
+     ],
+     "target": "hand-r"
+    },
+    {
+     "easing": "ease-in-out",
+     "iterations": 4,
+     "keyframes": [
+      {
+       "rotate": -15,
+       "t": 0
+      },
+      {
+       "rotate": 15,
+       "t": 0.5
+      },
+      {
+       "rotate": -15,
+       "t": 1
+      }
+     ],
+     "target": "peanut-jar"
+    },
+    {
+     "easing": "ease-in-out",
+     "iterations": 2,
+     "keyframes": [
+      {
+       "rotate": 0,
+       "t": 0
+      },
+      {
+       "rotate": -12,
+       "t": 0.5
+      },
+      {
+       "rotate": 0,
+       "t": 1
+      }
+     ],
+     "target": "head"
+    },
+    {
+     "easing": "ease-in-out",
+     "iterations": 2,
+     "keyframes": [
+      {
+       "rotate": 0,
+       "t": 0,
+       "translateY": 0
+      },
+      {
+       "rotate": -8,
+       "t": 0.5,
+       "translateY": -10
+      },
+      {
+       "rotate": 0,
+       "t": 1,
+       "translateY": 0
+      }
+     ],
+     "target": "duck"
+    }
+   ]
+  },
+  "cutout": "/presentation/cutout.png"
+ },
+ "quality": [
+  {
+   "q": 0.5,
+   "style": "cartoon sticker",
+   "img": "/presentation/accessory-q05.png"
+  },
+  {
+   "q": 1.0,
+   "style": "photo",
+   "img": "/presentation/accessory.png"
+  }
+ ]
+}

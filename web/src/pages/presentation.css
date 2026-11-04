@@ -1,0 +1,112 @@
+/* /presentation — "how it works" slides. 1600×900 canvas scaled to the window. */
+.p-root {
+  position: fixed; inset: 0; background: #f6f4ef; overflow: hidden;
+  display: flex; align-items: center; justify-content: center; cursor: default; user-select: none;
+}
+.p-canvas { position: relative; flex: none; transform-origin: center; }
+.p-title {
+  position: absolute; left: 40px; top: 18px; margin: 0; font-size: 34px; font-weight: 800;
+  animation: p-in .5s cubic-bezier(.2, .8, .3, 1) both;
+}
+.p-layer { position: absolute; inset: 0; }
+.p-dots { position: absolute; right: 30px; bottom: 22px; display: flex; gap: 8px; }
+.p-dots i { width: 10px; height: 10px; border-radius: 50%; background: #d6d1c4; }
+.p-dots i.on { background: var(--ink); }
+
+/* reveal */
+.p-node { position: absolute; opacity: 0; transform: scale(.85) translateY(14px); pointer-events: none;
+  transition: opacity .45s, transform .55s cubic-bezier(.2, 1.3, .4, 1); }
+.p-node.on { opacity: 1; transform: none; }
+@keyframes p-in { from { opacity: 0; transform: translateY(-10px); } }
+
+.p-edges { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.p-edge path { fill: none; stroke: var(--ink); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round;
+  stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset .6s ease-out; }
+.p-edge path { marker-end: none; }
+.p-edge.on path { stroke-dashoffset: 0; marker-end: url(#p-head); }
+.p-edge text { font-size: 22px; font-weight: 700; fill: var(--ink); opacity: 0; transition: opacity .4s .3s;
+  paint-order: stroke; stroke: #f6f4ef; stroke-width: 8px; }
+.p-edge.on text { opacity: 1; }
+.p-edge.yes text { fill: #15803d; }
+.p-edge.no text { fill: #b91c1c; }
+
+/* blocks */
+.p-col { display: flex; flex-direction: column; align-items: center; text-align: center; }
+.p-col h3 { margin: 0 0 12px; font-size: 28px; }
+.p-col h4 { margin: 8px 0; font-size: 20px; }
+.p-col p { margin: 10px 0 0; color: #6b7280; font-size: 20px; }
+.p-col code, .p-box code { font-size: .85em; background: #fff; border: 1.5px solid #d6d1c4; border-radius: 6px; padding: 0 6px; }
+
+.p-box { background: #fff; border: 3px solid var(--ink); border-radius: 18px; padding: 14px 18px; box-shadow: 0 5px 0 var(--ink); width: 280px;
+}
+.p-box-head { display: flex; flex-direction: column; gap: 6px; align-items: flex-start; margin-bottom: 8px; }
+.p-box-head b { font-size: 22px; }
+.p-box ul { margin: 4px 0; padding-left: 20px; font-size: 17px; line-height: 1.4; }
+.p-box small { color: #6b7280; font-size: 15px; }
+.p-tag { display: inline-block; font-size: 14px; font-weight: 700; padding: 3px 10px; border-radius: 999px; border: 2px solid; }
+.p-tag.meta { color: #0866ff; border-color: #0866ff; background: #eef4ff; }
+.p-tag.code { color: #6b7280; border-color: #9ca3af; }
+.p-models { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; width: 400px;
+  background: #fff; border: 3px dashed #0866ff; border-radius: 20px; padding: 18px; }
+.p-models .p-tag { font-size: 20px; padding: 6px 14px; }
+
+.p-img { width: 160px; height: 160px; object-fit: contain; border-radius: 12px; display: block; margin: 0 auto; }
+.p-quote { text-align: center; font-weight: 700; font-size: 20px; margin-top: 6px; }
+.p-onedge img { width: 90px; height: 90px; object-fit: contain; background: #fff; border: 3px solid var(--ink); border-radius: 14px; }
+.p-row { display: flex; align-items: center; gap: 8px; font-size: 22px; font-weight: 700; }
+.p-row ul { font-weight: 400; }
+.p-thumb { width: 62px; height: 62px; object-fit: contain; border-radius: 10px; border: 2px solid #e5e1d6; background: #fafafa; }
+.p-thumb.tall { width: 80px; height: 120px; }
+.p-code { margin: 4px 0 8px; font-size: 11.5px; line-height: 1.5; background: #1f2430; color: #ffd23f; border-radius: 10px;
+  padding: 10px 12px; white-space: pre-wrap; word-break: break-all; max-width: 260px; }
+
+.p-diamond { width: 200px; height: 200px; position: relative; }
+.p-diamond::before { content: ''; position: absolute; inset: 30px; background: #fff7d6; border: 3px solid #f2b705;
+  transform: rotate(45deg); border-radius: 12px; }
+.p-diamond span { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; text-align: center;
+  font-weight: 800; font-size: 19px; padding: 0 46px; }
+
+.p-eyes { font-size: 110px; line-height: 1; }
+.p-card { background: #fff; border: 3px solid var(--ink); border-radius: 16px; padding: 14px 20px; min-width: 180px; box-shadow: 0 5px 0 var(--ink); }
+.p-card p { margin: 6px 0 0; font-size: 20px; }
+.p-selfie { width: 200px; border-radius: 14px; border: 3px solid var(--ink); }
+
+/* live duck / tank / phone */
+.p-duck { position: relative; }
+.p-duck svg { width: 100%; height: 100%; overflow: visible; }
+.p-bubble, .p-duck .css-duck-bubble { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); z-index: 2; white-space: nowrap;
+  background: #fff; border: 3px solid var(--ink); border-radius: 14px; padding: 4px 12px; font-weight: 700; font-size: 18px; }
+.p-tank { border: 4px solid var(--ink); border-radius: 16px; overflow: hidden; background: #7cc4e8; }
+.p-tank .p-stage { width: 100%; height: 100%; }
+.p-phone { background: var(--ink); border-radius: 30px; padding: 8px; overflow: hidden; }
+.p-phone iframe { width: 390px; height: 844px; border: 0; border-radius: 24px; transform-origin: 0 0; pointer-events: none; background: #fff; }
+
+/* quality slider (same gradient as /friend) */
+.p-slider { padding: 4px 2px 0; }
+.p-slider-track { position: relative; height: 16px; border-radius: 999px; border: 2px solid var(--ink);
+  background: linear-gradient(90deg, #fde68a, #fca5a5, #c4b5fd, #93c5fd, #6ee7b7); margin: 14px 10px 6px; }
+.p-slider-track i { position: absolute; top: 50%; transform: translate(-50%, -50%); font-style: normal; font-size: 18px;
+  width: 34px; height: 34px; display: grid; place-items: center; background: #fff; border: 3px solid var(--ink); border-radius: 50%;
+  transition: left .7s cubic-bezier(.3, 1.4, .5, 1); }
+.p-slider-ends { display: flex; justify-content: space-between; font-size: 15px; color: #6b7280; font-weight: 700; }
+.p-qout { position: relative; width: 62px; height: 62px; }
+.p-qout .p-thumb { position: absolute; inset: 0; opacity: 0; transition: opacity .5s; }
+.p-qout .p-thumb.on { opacity: 1; }
+
+/* /outro card (1920×1080) */
+.o-root { position: fixed; inset: 0; overflow: hidden; background: #7cc4e8; }
+/* the tank is a 3:4 world: keep that ratio (no stretched fish), cover the width, show the sandy bottom */
+.o-water { position: absolute; left: 0; width: 1920px; height: 2560px; bottom: 0; }
+.o-water > svg, .o-water > canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.o-sub { position: absolute; width: 520px; top: 640px; left: -560px; animation: o-cross 5s linear forwards; z-index: 2; }
+@keyframes o-cross { to { left: 1960px; } }
+.o-card { position: absolute; left: 50%; top: 42%; transform: translate(-50%, -50%); z-index: 3; text-align: center;
+  background: #fffaf0; border: 5px solid var(--ink); border-radius: 36px; box-shadow: 0 10px 0 var(--ink); padding: 40px 64px;
+  animation: o-pop .7s cubic-bezier(.2, 1.4, .4, 1) .15s both; }
+@keyframes o-pop { from { opacity: 0; transform: translate(-50%, -50%) scale(.7); } }
+.o-kicker { font-size: 44px; font-weight: 800; margin-bottom: 14px; }
+.o-link { font: 600 46px ui-monospace, 'SF Mono', Menlo, monospace; color: var(--ink); white-space: nowrap; }
+.o-link b { color: #e4572e; }
+.o-foot { margin-top: 18px; font-size: 26px; color: #6b7280; font-weight: 700; }
+.o-models { margin-top: 18px; display: flex; gap: 10px; justify-content: center; }
+.o-models .p-tag { font-size: 20px; padding: 5px 14px; }
