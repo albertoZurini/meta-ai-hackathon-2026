@@ -4,6 +4,10 @@
 
 Built solo, from scratch, for the **Meta Global AI Developer Hackathon** (Oct 27 – Nov 4, 2026). Every line of code, every drawing and the idea itself were made during the hackathon.
 
+**🎬 Demo video (3 min): https://youtu.be/chQz68j63Lc**
+
+> **Note on the demo video:** it was recorded before the organizers clarified that on-device non-Meta models aren't allowed at runtime. The camera debug panel in the video still shows "Apple Vision" for the face/hand presence check. That check has since been replaced with local **SAM 3.1** (commit `22d86ae`), so every model DuckMail calls at runtime is a Meta model. Nothing else changed.
+
 My wife and I moved from overseas to the US. Our friends are hours away. Scheduling a video call across time zones never lines up. So I built a little room where friends can drop into whenever they want, with a duck in a submarine.
 
 ## How it works
